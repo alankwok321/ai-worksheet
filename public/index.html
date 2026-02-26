@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Worksheet Generator</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button id="sidebar-toggle" class="icon-btn" title="Toggle sidebar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <h1>AI Worksheet Generator</h1>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <div class="view-toggle" id="view-toggle" style="display:none;">
+        <button class="toggle-btn active" data-view="student">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Student View
+        </button>
+        <button class="toggle-btn" data-view="teacher">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          Teacher View
+        </button>
+      </div>
+      <div class="export-buttons" id="export-buttons" style="display:none;">
+        <button class="btn btn-outline" id="btn-export-student" title="Export student worksheet (no answers)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Student PDF
+        </button>
+        <button class="btn btn-outline" id="btn-export-teacher" title="Export answer key">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Answer Key PDF
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-content">
+        <!-- Topic Input -->
+        <div class="form-section">
+          <label class="form-label">Topic / Subject</label>
+          <input type="text" id="topic" class="form-input" placeholder='e.g., "Grade 5 Fractions", "Photosynthesis"' autocomplete="off">
+        </div>
+
+        <!-- Grade Level -->
+        <div class="form-section">
+          <label class="form-label">Grade Level</label>
+          <select id="gradeLevel" class="form-select">
+            <option value="1">Grade 1</option>
+            <option value="2">Grade 2</option>
+            <option value="3">Grade 3</option>
+            <option value="4">Grade 4</option>
+            <option value="5" selected>Grade 5</option>
+            <option value="6">Grade 6</option>
+            <option value="7">Grade 7</option>
+            <option value="8">Grade 8</option>
+            <option value="9">Grade 9</option>
+            <option value="10">Grade 10</option>
+            <option value="11">Grade 11</option>
+            <option value="12">Grade 12</option>
+            <option value="university">University</option>
+          </select>
+        </div>
+
+        <!-- Question Count -->
+        <div class="form-section">
+          <label class="form-label">Number of Questions</label>
+          <div class="btn-group">
+            <button class="btn-option" data-value="5">5</button>
+            <button class="btn-option active" data-value="10">10</button>
+            <button class="btn-option" data-value="15">15</button>
+            <button class="btn-option" data-value="20">20</button>
+          </div>
+        </div>
+
+        <!-- Question Types -->
+        <div class="form-section">
+          <label class="form-label">Question Types</label>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" value="multiple_choice" checked> Multiple Choice
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" value="fill_blank"> Fill in the Blank
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" value="short_answer" checked> Short Answer
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" value="true_false"> True / False
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" value="matching"> Matching
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" value="word_problem"> Word Problems
+            </label>
+          </div>
+        </div>
+
+        <!-- Difficulty -->
+        <div class="form-section">
+          <label class="form-label">Difficulty</label>
+          <div class="btn-group">
+            <button class="btn-option" data-value="easy">Easy</button>
+            <button class="btn-option active" data-value="medium">Medium</button>
+            <button class="btn-option" data-value="hard">Hard</button>
+          </div>
+        </div>
+
+        <!-- Language -->
+        <div class="form-section">
+          <label class="form-label">Language</label>
+          <select id="language" class="form-select">
+            <option value="en">English</option>
+            <option value="zh-TW">繁體中文</option>
+          </select>
+        </div>
+
+        <!-- Model Selection -->
+        <div class="form-section">
+          <label class="form-label">AI Model</label>
+          <input type="text" id="model" class="form-input" placeholder="e.g., gpt-4o" value="gpt-4o">
+        </div>
+
+        <!-- Generate Button -->
+        <button class="btn btn-primary btn-generate" id="btn-generate">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Generate Worksheet
+        </button>
+
+        <!-- Divider -->
+        <hr class="divider">
+
+        <!-- Templates -->
+        <div class="form-section">
+          <label class="form-label">Quick Templates</label>
+          <div class="template-list">
+            <button class="template-btn" data-template="math">🧮 Math Basics</button>
+            <button class="template-btn" data-template="science">🔬 Science Quiz</button>
+            <button class="template-btn" data-template="vocabulary">📚 Vocabulary Test</button>
+            <button class="template-btn" data-template="reading">📖 Reading Comprehension</button>
+          </div>
+        </div>
+
+        <!-- History -->
+        <div class="form-section">
+          <label class="form-label">
+            Recent Worksheets
+            <button class="btn-text" id="btn-clear-history" title="Clear history">Clear</button>
+          </label>
+          <div class="history-list" id="history-list">
+            <p class="empty-state">No worksheets yet</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+      <!-- Empty State -->
+      <div class="empty-main" id="empty-state">
+        <div class="empty-icon">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <h2>Create Your Worksheet</h2>
+        <p>Enter a topic and customize your options, then click <strong>Generate Worksheet</strong> to get started.</p>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <span class="feature-icon">🎯</span>
+            <h3>AI-Powered</h3>
+            <p>Generates pedagogically sound questions tailored to any topic and grade level</p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">✏️</span>
+            <h3>Fully Editable</h3>
+            <p>Click any question to edit. Add, remove, or reorder questions as needed</p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">📄</span>
+            <h3>PDF Export</h3>
+            <p>Export clean student worksheets and answer keys ready for printing</p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">🌐</span>
+            <h3>Bilingual</h3>
+            <p>Generate worksheets in English or Traditional Chinese (繁體中文)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div class="loading-state" id="loading-state" style="display:none;">
+        <div class="spinner"></div>
+        <h2>Generating Your Worksheet...</h2>
+        <p>The AI is crafting questions tailored to your specifications. This usually takes 10-20 seconds.</p>
+      </div>
+
+      <!-- Worksheet Container -->
+      <div class="worksheet-container" id="worksheet-container" style="display:none;">
+        <!-- Worksheet Header -->
+        <div class="worksheet-header" id="worksheet-header">
+          <div class="header-field" contenteditable="true" id="header-school" data-placeholder="School Name"></div>
+          <h2 class="worksheet-title" contenteditable="true" id="worksheet-title"></h2>
+          <div class="header-meta">
+            <div class="header-field" contenteditable="true" id="header-class" data-placeholder="Class / Section"></div>
+            <div class="header-field" contenteditable="true" id="header-date" data-placeholder="Date"></div>
+          </div>
+          <div class="student-info">
+            <span>Name: ___________________________</span>
+            <span>Score: _______ / <span id="total-score"></span></span>
+          </div>
+          <p class="worksheet-instructions" contenteditable="true" id="worksheet-instructions"></p>
+        </div>
+
+        <!-- Questions List -->
+        <div class="questions-list" id="questions-list"></div>
+
+        <!-- Add Question Button -->
+        <button class="btn btn-dashed" id="btn-add-question">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Question
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="/js/generator.js"></script>
+  <script src="/js/editor.js"></script>
+  <script src="/js/export.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
