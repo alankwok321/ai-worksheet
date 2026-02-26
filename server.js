@@ -9,13 +9,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // AI Worksheet Generation Endpoint
 app.post('/api/generate-worksheet', async (req, res) => {
-  const { topic, gradeLevel, questionCount, questionTypes, difficulty, language, model } = req.body;
+  const { topic, gradeLevel, questionCount, questionTypes, difficulty, language, model, apiKey: clientApiKey, apiBaseUrl: clientBaseUrl } = req.body;
 
-  const baseUrl = process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1';
-  const apiKey = process.env.OPENAI_API_KEY;
+  // Client-provided key takes priority, then env var
+  const apiKey = clientApiKey || process.env.OPENAI_API_KEY;
+  const baseUrl = (clientBaseUrl || process.env.OPENAI_BASE_URL || 'https://openrouter.ai/api/v1').replace(/\/+$/, '');
 
   if (!apiKey) {
-    return res.status(500).json({ error: 'OPENAI_API_KEY is not configured on the server.' });
+    return res.status(400).json({ error: '請先設定 API Key。' });
   }
 
   const selectedModel = model || process.env.OPENAI_MODEL || 'gpt-4o';

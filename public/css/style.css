@@ -503,3 +503,110 @@ body {
   .header-meta { flex-direction: column; gap: 4px; }
   .student-info { flex-direction: column; gap: 4px; }
 }
+
+/* === API Settings === */
+.api-settings {
+  margin-top: 8px;
+  padding: 12px;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+}
+
+.form-group-sm {
+  margin-bottom: 10px;
+}
+
+.form-label-sm {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray-600);
+  margin-bottom: 4px;
+}
+
+.form-input-sm {
+  font-size: 0.8rem;
+  padding: 6px 10px;
+}
+
+.form-hint {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--gray-400);
+  margin-top: 2px;
+}
+
+.input-with-toggle {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.input-with-toggle .form-input {
+  flex: 1;
+}
+
+.btn-eye {
+  background: none;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 6px 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.btn-eye:hover {
+  background: var(--gray-100);
+}
+
+.api-settings-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.btn-sm {
+  font-size: 0.75rem;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid var(--gray-200);
+  background: var(--gray-50);
+  color: var(--gray-700);
+  font-weight: 600;
+}
+
+.btn-sm:hover {
+  background: var(--gray-100);
+}
+
+.btn-save-api {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.btn-save-api:hover {
+  background: var(--primary-hover);
+}
+
+.btn-clear-api {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border-color: #fca5a5;
+}
+
+.api-status {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.api-status.success {
+  color: var(--success);
+}
+
+.api-status.active {
+  color: var(--primary);
+}

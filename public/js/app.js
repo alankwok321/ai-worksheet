@@ -7,7 +7,6 @@
   const topicInput = document.getElementById('topic');
   const gradeLevelSelect = document.getElementById('gradeLevel');
   const languageSelect = document.getElementById('language');
-  const modelInput = document.getElementById('model');
   const btnGenerate = document.getElementById('btn-generate');
   const emptyState = document.getElementById('empty-state');
   const loadingState = document.getElementById('loading-state');
@@ -95,7 +94,9 @@
       questionTypes,
       difficulty: selectedDifficulty,
       language: languageSelect.value,
-      model: modelInput.value.trim() || 'gpt-4o'
+      model: document.getElementById('model').value || 'google/gemini-2.5-flash-preview',
+      apiKey: localStorage.getItem('ws_api_key') || '',
+      apiBaseUrl: localStorage.getItem('ws_api_base_url') || ''
     };
 
     showView('loading');
@@ -268,4 +269,68 @@
     }
   });
 
+  // === Load saved API settings ===
+  loadApiSettingsUI();
+
 })();
+
+// ── API Settings (outside IIFE so onclick can access) ──
+
+function toggleApiSettings() {
+  const panel = document.getElementById('apiSettings');
+  const btn = document.getElementById('btn-toggle-api');
+  if (!panel) return;
+  const hidden = panel.style.display === 'none';
+  panel.style.display = hidden ? 'block' : 'none';
+  if (btn) btn.textContent = hidden ? t('apiSettingsCollapse') : t('apiSettingsExpand');
+}
+
+function toggleKeyVisibility() {
+  const input = document.getElementById('apiKey');
+  if (!input) return;
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+function saveApiSettings() {
+  const apiKey = document.getElementById('apiKey')?.value?.trim() || '';
+  const apiBaseUrl = document.getElementById('apiBaseUrl')?.value?.trim() || '';
+  const statusEl = document.getElementById('apiStatus');
+
+  if (apiKey) localStorage.setItem('ws_api_key', apiKey);
+  if (apiBaseUrl) localStorage.setItem('ws_api_base_url', apiBaseUrl);
+
+  if (statusEl) {
+    statusEl.textContent = '✅ ' + t('apiSaved');
+    statusEl.className = 'api-status success';
+  }
+}
+
+function clearApiSettings() {
+  localStorage.removeItem('ws_api_key');
+  localStorage.removeItem('ws_api_base_url');
+  const keyEl = document.getElementById('apiKey');
+  const urlEl = document.getElementById('apiBaseUrl');
+  const statusEl = document.getElementById('apiStatus');
+  if (keyEl) keyEl.value = '';
+  if (urlEl) urlEl.value = '';
+  if (statusEl) {
+    statusEl.textContent = '🗑️ ' + t('apiCleared');
+    statusEl.className = 'api-status';
+  }
+}
+
+function loadApiSettingsUI() {
+  const savedKey = localStorage.getItem('ws_api_key') || '';
+  const savedUrl = localStorage.getItem('ws_api_base_url') || '';
+  const keyEl = document.getElementById('apiKey');
+  const urlEl = document.getElementById('apiBaseUrl');
+  const statusEl = document.getElementById('apiStatus');
+
+  if (keyEl && savedKey) keyEl.value = savedKey;
+  if (urlEl && savedUrl) urlEl.value = savedUrl;
+  if (statusEl && savedKey) {
+    const masked = savedKey.substring(0, 6) + '...' + savedKey.slice(-4);
+    statusEl.textContent = '🔑 ' + masked;
+    statusEl.className = 'api-status active';
+  }
+}

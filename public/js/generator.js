@@ -1,11 +1,11 @@
 // generator.js — AI worksheet generation logic
 
 const WorksheetGenerator = {
-  async generate({ topic, gradeLevel, questionCount, questionTypes, difficulty, language, model }) {
+  async generate({ topic, gradeLevel, questionCount, questionTypes, difficulty, language, model, apiKey, apiBaseUrl }) {
     const response = await fetch('/api/generate-worksheet', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ topic, gradeLevel, questionCount, questionTypes, difficulty, language, model })
+      body: JSON.stringify({ topic, gradeLevel, questionCount, questionTypes, difficulty, language, model, apiKey, apiBaseUrl })
     });
 
     if (!response.ok) {

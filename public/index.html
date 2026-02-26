@@ -133,7 +133,51 @@
         <!-- Model Selection -->
         <div class="form-section">
           <label class="form-label">AI Model</label>
-          <input type="text" id="model" class="form-input" placeholder="e.g., gpt-4o" value="gpt-4o">
+          <select id="model" class="form-select">
+            <optgroup label="OpenRouter">
+              <option value="google/gemini-2.5-flash-preview" selected>Gemini 2.5 Flash (Free)</option>
+              <option value="google/gemini-2.5-pro-preview">Gemini 2.5 Pro</option>
+              <option value="openai/gpt-4o">GPT-4o</option>
+              <option value="openai/gpt-4o-mini">GPT-4o Mini</option>
+              <option value="anthropic/claude-sonnet-4">Claude Sonnet 4</option>
+              <option value="anthropic/claude-3.5-haiku">Claude 3.5 Haiku</option>
+              <option value="deepseek/deepseek-chat-v3">DeepSeek V3</option>
+              <option value="meta-llama/llama-4-maverick">Llama 4 Maverick</option>
+            </optgroup>
+            <optgroup label="Direct API">
+              <option value="gpt-4o">GPT-4o (Direct)</option>
+              <option value="gpt-4o-mini">GPT-4o Mini (Direct)</option>
+              <option value="gemini-2.5-flash-preview">Gemini 2.5 Flash (Direct)</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <!-- API Settings -->
+        <div class="form-section">
+          <label class="form-label">
+            API 設定
+            <button class="btn-text" id="btn-toggle-api" onclick="toggleApiSettings()">展開</button>
+          </label>
+          <div id="apiSettings" class="api-settings" style="display:none;">
+            <div class="form-group-sm">
+              <label class="form-label-sm">API Base URL</label>
+              <input type="text" id="apiBaseUrl" class="form-input form-input-sm" placeholder="https://openrouter.ai/api/v1" value="">
+              <span class="form-hint">留空使用 OpenRouter</span>
+            </div>
+            <div class="form-group-sm">
+              <label class="form-label-sm">API Key 🔑</label>
+              <div class="input-with-toggle">
+                <input type="password" id="apiKey" class="form-input form-input-sm" placeholder="sk-... 或 or-...">
+                <button class="btn-eye" onclick="toggleKeyVisibility()">👁️</button>
+              </div>
+              <span class="form-hint">金鑰只儲存在你的瀏覽器中</span>
+            </div>
+            <div class="api-settings-actions">
+              <button class="btn btn-sm btn-save-api" onclick="saveApiSettings()">💾 儲存</button>
+              <button class="btn btn-sm btn-clear-api" onclick="clearApiSettings()">🗑️ 清除</button>
+            </div>
+            <div id="apiStatus" class="api-status"></div>
+          </div>
         </div>
 
         <!-- Generate Button -->
