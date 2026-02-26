@@ -59,19 +59,22 @@
         <div class="form-section">
           <label class="form-label">Grade Level</label>
           <select id="gradeLevel" class="form-select">
-            <option value="1">Grade 1</option>
-            <option value="2">Grade 2</option>
-            <option value="3">Grade 3</option>
-            <option value="4">Grade 4</option>
-            <option value="5" selected>Grade 5</option>
-            <option value="6">Grade 6</option>
-            <option value="7">Grade 7</option>
-            <option value="8">Grade 8</option>
-            <option value="9">Grade 9</option>
-            <option value="10">Grade 10</option>
-            <option value="11">Grade 11</option>
-            <option value="12">Grade 12</option>
-            <option value="university">University</option>
+            <optgroup label="小學" id="gradegroup-primary">
+              <option value="P1">小一</option>
+              <option value="P2">小二</option>
+              <option value="P3">小三</option>
+              <option value="P4">小四</option>
+              <option value="P5" selected>小五</option>
+              <option value="P6">小六</option>
+            </optgroup>
+            <optgroup label="中學" id="gradegroup-secondary">
+              <option value="S1">中一</option>
+              <option value="S2">中二</option>
+              <option value="S3">中三</option>
+              <option value="S4">中四</option>
+              <option value="S5">中五</option>
+              <option value="S6">中六</option>
+            </optgroup>
           </select>
         </div>
 

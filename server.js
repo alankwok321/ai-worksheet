@@ -19,7 +19,16 @@ app.post('/api/generate-worksheet', async (req, res) => {
     return res.status(400).json({ error: '請先設定 API Key。' });
   }
 
-  const selectedModel = model || process.env.OPENAI_MODEL || 'gpt-4o';
+  const selectedModel = model || process.env.OPENAI_MODEL || 'google/gemini-2.5-flash-preview';
+
+  // Map grade codes to descriptive labels for the AI
+  const gradeLabelMap = {
+    'P1': 'Primary 1 (age 6-7)', 'P2': 'Primary 2 (age 7-8)', 'P3': 'Primary 3 (age 8-9)',
+    'P4': 'Primary 4 (age 9-10)', 'P5': 'Primary 5 (age 10-11)', 'P6': 'Primary 6 (age 11-12)',
+    'S1': 'Secondary 1 (age 12-13)', 'S2': 'Secondary 2 (age 13-14)', 'S3': 'Secondary 3 (age 14-15)',
+    'S4': 'Secondary 4 (age 15-16)', 'S5': 'Secondary 5 (age 16-17)', 'S6': 'Secondary 6 (age 17-18)',
+  };
+  const gradeLabel = gradeLabelMap[gradeLevel] || gradeLevel;
 
   const typesStr = questionTypes.join(', ');
   const langInstruction = language === 'zh-TW'
@@ -30,7 +39,7 @@ app.post('/api/generate-worksheet', async (req, res) => {
 
   const userPrompt = `Create a worksheet with these specifications:
 - Topic: ${topic}
-- Grade Level: ${gradeLevel}
+- Grade Level: ${gradeLabel}
 - Number of Questions: ${questionCount}
 - Question Types: ${typesStr}
 - Difficulty: ${difficulty}

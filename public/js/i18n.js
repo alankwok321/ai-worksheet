@@ -52,6 +52,12 @@ const I18N = {
     // Grade levels
     grade: 'Grade',
     university: 'University',
+    primaryGroup: 'Primary',
+    secondaryGroup: 'Secondary',
+    gradeP1: 'Primary 1', gradeP2: 'Primary 2', gradeP3: 'Primary 3',
+    gradeP4: 'Primary 4', gradeP5: 'Primary 5', gradeP6: 'Primary 6',
+    gradeS1: 'Secondary 1', gradeS2: 'Secondary 2', gradeS3: 'Secondary 3',
+    gradeS4: 'Secondary 4', gradeS5: 'Secondary 5', gradeS6: 'Secondary 6',
     // Main area
     emptyTitle: 'Create Your Worksheet',
     emptyDesc: 'Enter a topic and customize your options, then click <strong>Generate Worksheet</strong> to get started.',
@@ -142,6 +148,12 @@ const I18N = {
     noHistory: '暫無工作紙',
     grade: '年級',
     university: '大學',
+    primaryGroup: '小學',
+    secondaryGroup: '中學',
+    gradeP1: '小一', gradeP2: '小二', gradeP3: '小三',
+    gradeP4: '小四', gradeP5: '小五', gradeP6: '小六',
+    gradeS1: '中一', gradeS2: '中二', gradeS3: '中三',
+    gradeS4: '中四', gradeS5: '中五', gradeS6: '中六',
     emptyTitle: '建立你的工作紙',
     emptyDesc: '輸入主題並自訂選項，然後點擊 <strong>生成工作紙</strong> 開始。',
     featureAI: 'AI 驅動',
@@ -259,9 +271,21 @@ function applyTranslations() {
   // Grade level options
   const gradeSelect = document.getElementById('gradeLevel');
   if (gradeSelect) {
+    // Update optgroup labels
+    const primaryGroup = document.getElementById('gradegroup-primary');
+    const secondaryGroup = document.getElementById('gradegroup-secondary');
+    if (primaryGroup) primaryGroup.label = t('primaryGroup');
+    if (secondaryGroup) secondaryGroup.label = t('secondaryGroup');
+
+    // Update option text
+    const gradeKeys = {
+      'P1': 'gradeP1', 'P2': 'gradeP2', 'P3': 'gradeP3',
+      'P4': 'gradeP4', 'P5': 'gradeP5', 'P6': 'gradeP6',
+      'S1': 'gradeS1', 'S2': 'gradeS2', 'S3': 'gradeS3',
+      'S4': 'gradeS4', 'S5': 'gradeS5', 'S6': 'gradeS6',
+    };
     gradeSelect.querySelectorAll('option').forEach(opt => {
-      if (opt.value === 'university') opt.textContent = t('university');
-      else opt.textContent = t('grade') + ' ' + opt.value;
+      if (gradeKeys[opt.value]) opt.textContent = t(gradeKeys[opt.value]);
     });
   }
 
