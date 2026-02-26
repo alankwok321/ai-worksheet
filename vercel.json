@@ -31,5 +31,10 @@
       "src": "/",
       "dest": "public/index.html"
     }
-  ]
+  ],
+  "functions": {
+    "server.js": {
+      "maxDuration": 60
+    }
+  }
 }

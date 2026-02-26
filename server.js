@@ -123,6 +123,12 @@ Rules:
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`AI Worksheet Generator running on http://localhost:${PORT}`);
-});
+// Export for Vercel serverless
+module.exports = app;
+
+// Only listen when running locally (not on Vercel)
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`AI Worksheet Generator running on http://localhost:${PORT}`);
+  });
+}
