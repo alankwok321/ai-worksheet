@@ -77,14 +77,14 @@
   btnGenerate.addEventListener('click', async () => {
     const topic = topicInput.value.trim();
     if (!topic) {
-      showToast('Please enter a topic or subject.', 'error');
+      showToast(t('toastEnterTopic'), 'error');
       topicInput.focus();
       return;
     }
 
     const questionTypes = Array.from(document.querySelectorAll('.checkbox-group input:checked')).map(cb => cb.value);
     if (questionTypes.length === 0) {
-      showToast('Please select at least one question type.', 'error');
+      showToast(t('toastSelectType'), 'error');
       return;
     }
 
@@ -106,7 +106,7 @@
       WorksheetEditor.render(worksheet);
       showView('worksheet');
       saveToHistory(worksheet, params);
-      showToast('Worksheet generated successfully!', 'success');
+      showToast(t('toastGenerated'), 'success');
     } catch (err) {
       console.error('Generation error:', err);
       showToast(err.message || 'Failed to generate worksheet.', 'error');
@@ -118,20 +118,20 @@
 
   // === Export ===
   btnExportStudent.addEventListener('click', async () => {
-    showToast('Generating student PDF...');
+    showToast(t('toastStudentPDF'));
     try {
       await WorksheetExport.exportPDF('student');
-      showToast('Student PDF downloaded!', 'success');
+      showToast(t('toastStudentPDFDone'), 'success');
     } catch (e) {
       showToast('PDF export failed: ' + e.message, 'error');
     }
   });
 
   btnExportTeacher.addEventListener('click', async () => {
-    showToast('Generating answer key PDF...');
+    showToast(t('toastAnswerPDF'));
     try {
       await WorksheetExport.exportPDF('teacher');
-      showToast('Answer key PDF downloaded!', 'success');
+      showToast(t('toastAnswerPDFDone'), 'success');
     } catch (e) {
       showToast('PDF export failed: ' + e.message, 'error');
     }
@@ -166,7 +166,7 @@
       });
       selectedDifficulty = config.difficulty;
 
-      showToast('Template loaded! Click Generate to create the worksheet.');
+      showToast(t('toastTemplateLoaded'));
     });
   });
 
@@ -218,7 +218,7 @@
         if (item && item.worksheet) {
           WorksheetEditor.render(item.worksheet);
           showView('worksheet');
-          showToast('Loaded from history.', 'success');
+          showToast(t('toastLoadedHistory'), 'success');
         }
       });
     });
@@ -238,7 +238,7 @@
   btnClearHistory.addEventListener('click', () => {
     localStorage.removeItem(STORAGE_KEY);
     renderHistory();
-    showToast('History cleared.');
+    showToast(t('toastHistoryCleared'));
   });
 
   // === Keyboard shortcut ===
@@ -252,6 +252,14 @@
   // === Init ===
   renderHistory();
   showView('empty');
+
+  // Set initial language from dropdown
+  setLanguage(languageSelect.value);
+
+  // Language change handler — update UI language
+  languageSelect.addEventListener('change', () => {
+    setLanguage(languageSelect.value);
+  });
 
   // Close sidebar on mobile when clicking main area
   document.getElementById('main-content').addEventListener('click', () => {

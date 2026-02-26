@@ -37,12 +37,12 @@ const WorksheetEditor = {
     card.dataset.index = idx;
 
     const typeLabel = {
-      'multiple_choice': 'Multiple Choice',
-      'fill_blank': 'Fill in the Blank',
-      'short_answer': 'Short Answer',
-      'true_false': 'True / False',
-      'matching': 'Matching',
-      'word_problem': 'Word Problem'
+      'multiple_choice': t('typeMultipleChoice'),
+      'fill_blank': t('typeFillBlank'),
+      'short_answer': t('typeShortAnswer'),
+      'true_false': t('typeTrueFalse'),
+      'matching': t('typeMatching'),
+      'word_problem': t('typeWordProblem')
     }[q.type] || q.type;
 
     let optionsHTML = '';
@@ -50,7 +50,7 @@ const WorksheetEditor = {
     if (q.type === 'matching' && q.matchingPairs) {
       optionsHTML = `
         <table class="matching-table">
-          <thead><tr><th>Column A</th><th>Column B</th></tr></thead>
+          <thead><tr><th>${t('columnA')}</th><th>${t('columnB')}</th></tr></thead>
           <tbody>
             ${q.matchingPairs.map((pair, i) => `
               <tr>
@@ -96,9 +96,9 @@ const WorksheetEditor = {
       ${optionsHTML}
       ${blankHTML}
       <div class="answer-section" data-index="${idx}">
-        <div class="answer-label">✓ Answer</div>
+        <div class="answer-label">${t('answerLabel')}</div>
         <div class="answer-text" contenteditable="true" data-field="answer" data-index="${idx}">${q.answer || ''}</div>
-        <div class="explanation-label">💡 Explanation</div>
+        <div class="explanation-label">${t('explanationLabel')}</div>
         <div class="explanation-text" contenteditable="true" data-field="explanation" data-index="${idx}">${q.explanation || ''}</div>
       </div>
     `;
