@@ -19,7 +19,7 @@ app.post('/api/generate-worksheet', async (req, res) => {
     return res.status(400).json({ error: '請先設定 API Key。' });
   }
 
-  const selectedModel = model || process.env.OPENAI_MODEL || 'google/gemini-2.5-flash-preview';
+  const selectedModel = model || process.env.OPENAI_MODEL || 'google/gemini-2.5-flash';
 
   // Map grade codes to descriptive labels for the AI
   const gradeLabelMap = {

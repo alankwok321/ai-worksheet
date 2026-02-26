@@ -94,7 +94,7 @@
       questionTypes,
       difficulty: selectedDifficulty,
       language: languageSelect.value,
-      model: document.getElementById('model').value || 'google/gemini-2.5-flash-preview',
+      model: document.getElementById('model').value || 'google/gemini-2.5-flash',
       apiKey: localStorage.getItem('ws_api_key') || '',
       apiBaseUrl: localStorage.getItem('ws_api_base_url') || ''
     };
